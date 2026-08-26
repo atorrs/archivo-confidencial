@@ -42,7 +42,7 @@
             [ACCESO CONCEDIDO]<br>EL ENIGMA HA SIDO REVELADO.
         </div>
     </div>
-     <script>
+    <script>
         document.addEventListener("DOMContentLoaded", () => {
             const starsContainer = document.getElementById('starsBg');
             if (starsContainer) {
@@ -60,28 +60,31 @@
             }
         });
 
-        const añoActual = new Date().getFullYear();
-        const fechaCumple = new Date(`October 4, ${añoActual} 00:00:00`).getTime();
+        // CORREGIDO: Fecha fija directa en texto para evitar fallos de lectura en servidores
+        const fechaCumple = new Date("October 4, 2026 00:00:00").getTime();
 
         const cuentaRegresiva = setInterval(() => {
             const ahora = new Date().getTime();
             const distancia = fechaCumple - ahora;
 
-            const d = Math.floor(distancia / (1000 * 60 * 60 * 24));
-            const h = Math.floor((distancia % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            const m = Math.floor((distancia % (1000 * 60 * 60)) / (1000 * 60));
-            const s = Math.floor((distancia % (1000 * 60)) / 1000);
+            // Si la fecha aún no llega (distancia es mayor a 0), calcula el reloj
+            if (distancia > 0) {
+                const d = Math.floor(distancia / (1000 * 60 * 60 * 24));
+                const h = Math.floor((distancia % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const m = Math.floor((distancia % (1000 * 60 * 60)) / (1000 * 60));
+                const s = Math.floor((distancia % (1000 * 60)) / 1000);
 
-            document.getElementById('dias').innerText = d < 10 ? '0' + d : d;
-            document.getElementById('horas').innerText = h < 10 ? '0' + h : h;
-            document.getElementById('minutos').innerText = m < 10 ? '0' + m : m;
-            document.getElementById('segundos').innerText = s < 10 ? '0' + s : s;
-
-            if (distancia < 0) {
+                document.getElementById('dias').innerText = d < 10 ? '0' + d : d;
+                document.getElementById('horas').innerText = h < 10 ? '0' + h : h;
+                document.getElementById('minutos').innerText = m < 10 ? '0' + m : m;
+                document.getElementById('segundos').innerText = s < 10 ? '0' + s : s;
+            } else {
+                // Solo si el tiempo se agota o llega al 4 de octubre, hace el cambio
                 clearInterval(cuentaRegresiva);
                 document.getElementById('reloj-restringido').style.display = 'none';
                 document.getElementById('triggerFinal').style.display = 'block';
-                // Te redirige automáticamente a tu archivo principal index.html (la carta de Snoopy)
+                
+                // Salto automático a la carta de Snoopy
                 window.location.href = "index.html"; 
             }
         }, 1000);
