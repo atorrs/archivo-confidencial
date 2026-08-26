@@ -69,8 +69,8 @@
             }
         });
 
-        // El JavaScript sigue apuntando al 4 de Octubre de forma interna y secreta
-        const fechaCumple = new Date("August 25, 2026 22:42:00").getTime();
+        // TRUCO DE PRUEBA: Toma tu hora exacta actual y le suma 10 minutos automáticamente
+        const fechaCumple = new Date().getTime() + (10 * 60 * 1000);
 
         const cuentaRegresiva = setInterval(() => {
             const ahora = new Date().getTime();
@@ -91,7 +91,7 @@
                 document.getElementById('reloj-restringido').style.display = 'none';
                 document.getElementById('triggerFinal').style.display = 'block';
                 
-                // Salto automático e instantáneo a la carta de Snoopy (index.html)
+                // Salto automático a la carta de Snoopy
                 window.location.href = "index.html"; 
             }
         }, 1000);
