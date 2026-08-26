@@ -7,18 +7,24 @@
     <style>
         :root { --dark-bg: #0A0A0C; --neon-red: #FF3333; --neon-purple: #9D4EDD; --text-gray: #A0A0A5; --white: #FFFFFF; }
         body { font-family: 'Courier New', Courier, monospace; background-color: var(--dark-bg); color: var(--white); margin: 0; padding: 20px; display: flex; justify-content: center; align-items: center; min-height: 100vh; text-align: center; overflow: hidden; position: relative; }
+        
         .stars-container { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; pointer-events: none; z-index: 0; }
         .star { position: absolute; background-color: var(--neon-purple); border-radius: 50%; opacity: 0; animation: twinkle 4s infinite ease-in-out; }
         @keyframes twinkle { 0%, 100% { opacity: 0; transform: scale(0.5); } 50% { opacity: 0.6; transform: scale(1.2); } }
+        
         .card-misterio { background: #121216; padding: 40px 30px; border-radius: 12px; border: 2px solid #22222A; box-shadow: 0px 0px 30px rgba(157, 78, 221, 0.15); max-width: 480px; width: 100%; position: relative; z-index: 1; box-sizing: border-box; }
+        
         h1 { font-size: 1.6rem; letter-spacing: 3px; text-transform: uppercase; color: var(--neon-purple); margin-bottom: 20px; animation: glitch 3s infinite; }
         @keyframes glitch { 0%, 100% { text-shadow: 0 0 5px rgba(157,78,221,0.5); } 50% { text-shadow: 0 0 15px rgba(255,51,51,0.7); color: var(--neon-red); } }
+        
         .advertencia { font-size: 0.95rem; color: var(--text-gray); line-height: 1.6; margin-bottom: 35px; border-left: 3px solid var(--neon-red); padding-left: 15px; text-align: left; }
+        
         .countdown-grid { display: flex; justify-content: space-between; gap: 10px; margin: 20px 0; }
         .time-box { background: #1A1A24; border: 1px solid #333344; border-radius: 8px; padding: 15px 5px; flex: 1; min-width: 75px; position: relative; overflow: hidden; }
         .time-box::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 3px; background: var(--neon-purple); }
         .time-number { font-size: 2.2rem; font-weight: bold; font-family: monospace; color: var(--white); display: block; letter-spacing: -1px; }
         .time-label { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 2px; color: var(--text-gray); margin-top: 5px; display: block; }
+        
         .mensaje-final { display: none; font-size: 1.2rem; font-weight: bold; color: var(--neon-red); letter-spacing: 2px; text-transform: uppercase; margin-top: 25px; animation: pulse 1.5s infinite; }
         @keyframes pulse { 0%, 100% { opacity: 0.6; } 50% { opacity: 1; } }
     </style>
@@ -28,9 +34,11 @@
     <div class="card-misterio">
         <div id="reloj-restringido">
             <h1>SISTEMA BLOQUEADO</h1>
+            <!-- TEXTO INTERACTIVO MODIFICADO: Se eliminó la fecha del 4 de octubre -->
             <div class="advertencia">
-                [ALERTA]: Un archivo confidencial altamente encriptado ha sido detectado en el servidor. El protocolo de descifrado obligatorio se ejecutará al iniciar el 04 de Octubre... No intente alterar la terminal.
+                [ALERTA]: Un archivo confidencial altamente encriptado ha sido detectado en el servidor. El protocolo de descifrado obligatorio se ejecutará automáticamente al completarse el presente ciclo temporal... No intente alterar la terminal.
             </div>
+            
             <div class="countdown-grid">
                 <div class="time-box"><span class="time-number" id="dias">00</span><span class="time-label">Días</span></div>
                 <div class="time-box"><span class="time-number" id="horas">00</span><span class="time-label">Horas</span></div>
@@ -38,6 +46,7 @@
                 <div class="time-box"><span class="time-number" id="segundos">00</span><span class="time-label">Seg</span></div>
             </div>
         </div>
+        
         <div class="mensaje-final" id="triggerFinal">
             [ACCESO CONCEDIDO]<br>EL ENIGMA HA SIDO REVELADO.
         </div>
@@ -60,14 +69,13 @@
             }
         });
 
-        // CORREGIDO: Fecha fija directa en texto para evitar fallos de lectura en servidores
+        // El JavaScript sigue apuntando al 4 de Octubre de forma interna y secreta
         const fechaCumple = new Date("October 4, 2026 00:00:00").getTime();
 
         const cuentaRegresiva = setInterval(() => {
             const ahora = new Date().getTime();
             const distancia = fechaCumple - ahora;
 
-            // Si la fecha aún no llega (distancia es mayor a 0), calcula el reloj
             if (distancia > 0) {
                 const d = Math.floor(distancia / (1000 * 60 * 60 * 24));
                 const h = Math.floor((distancia % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
@@ -79,12 +87,11 @@
                 document.getElementById('minutos').innerText = m < 10 ? '0' + m : m;
                 document.getElementById('segundos').innerText = s < 10 ? '0' + s : s;
             } else {
-                // Solo si el tiempo se agota o llega al 4 de octubre, hace el cambio
                 clearInterval(cuentaRegresiva);
                 document.getElementById('reloj-restringido').style.display = 'none';
                 document.getElementById('triggerFinal').style.display = 'block';
                 
-                // Salto automático a la carta de Snoopy
+                // Salto automático e instantáneo a la carta de Snoopy (index.html)
                 window.location.href = "index.html"; 
             }
         }, 1000);
