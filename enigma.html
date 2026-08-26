@@ -69,8 +69,8 @@
             }
         });
 
-        // TRUCO DE PRUEBA: Toma tu hora exacta actual y le suma 10 minutos automáticamente
-        const fechaCumple = new Date().getTime() + (10 * 60 * 1000);
+        // FIJADO: Fecha real del cumpleaños para el inicio del 4 de octubre
+        const fechaCumple = new Date("October 4, 2026 00:00:00").getTime();
 
         const cuentaRegresiva = setInterval(() => {
             const ahora = new Date().getTime();
@@ -87,11 +87,12 @@
                 document.getElementById('minutos').innerText = m < 10 ? '0' + m : m;
                 document.getElementById('segundos').innerText = s < 10 ? '0' + s : s;
             } else {
+                // Se ejecuta de forma obligatoria únicamente al llegar a la fecha objetivo
                 clearInterval(cuentaRegresiva);
                 document.getElementById('reloj-restringido').style.display = 'none';
                 document.getElementById('triggerFinal').style.display = 'block';
                 
-                // Salto automático a la carta de Snoopy
+                // Redirección instantánea hacia la carta de Snoopy
                 window.location.href = "index.html"; 
             }
         }, 1000);
